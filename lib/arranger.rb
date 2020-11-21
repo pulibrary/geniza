@@ -11,7 +11,8 @@ class Arranger
     @series = ["NS", "L"]
     @pattern_1 = /^(?<lib>ENA|NS|MS)_(?<id>[^_]+)_0*(?<leaf>\d+)_[rv]\.tiff?$/
     @pattern_2 = /^(?<lib>ENA|NS|MS)_(?<id>[^_]+)_ruler\.tiff?$/
-
+    @pattern_3 = /^(?<lib>ENA|NS|MS)_(?<id>[^_]+)_0*(?<leaf>\d+)\.tiff?$/
+    @pattern_4 = /^(?<lib>ENA|NS|MS)_(?<series>[^_]+)_(?<id>[^_]+)_0*(?<leaf>\d+)_[rv]\.tiff?$/
   end
 
   def files
@@ -22,27 +23,32 @@ class Arranger
     case path.basename.to_s
     when @pattern_1
       "#{$~[:lib]} #{$~[:id]}.#{$~[:leaf]}"
-    when /bar/
-      "stuff"
+    when @pattern_2
+      ""
+    when @pattern_3
+      "#{$~[:lib]} #{$~[:id]}.#{$~[:leaf]}"
+    when @pattern_4
+      "#{$~[:lib]} #{$~[:series]} #{$~[:id]}.#{$~[:leaf]}"
     else
-      raise "bad path: #{path}"
+      raise "bad source path for shelf mark: #{path}"
     end
   end
 
   # library series id leaf part
   def target_path(path)
-    parsed = case path.basename.to_s
-             when @pattern_1
-               a = File.join(dest, $~[:lib], $~[:id], $~[:leaf].rjust(3, "0"), path.basename)
-               Pathname(a)
-             when @pattern_2
-               a = File.join(dest, $~[:lib], $~[:id], path.basename)
-               Pathname(a)
-
-             else
-               {}
-             end
-    parsed
+    case path.basename.to_s
+    when @pattern_1
+      Pathname(File.join(dest, $~[:lib], $~[:id], $~[:leaf].rjust(3, "0"), path.basename))
+    when @pattern_2
+      Pathname(File.join(dest, $~[:lib], $~[:id], path.basename))
+    when @pattern_3
+      Pathname(File.join(dest, $~[:lib], $~[:id], $~[:leaf].rjust(3, "0"), path.basename))
+    when @pattern_4
+      Pathname(File.join(dest, $~[:lib], $~[:series], $~[:id], $~[:leaf].rjust(3, "0"), path.basename))
+      
+    else
+      raise "bad source path: #{path}"
+    end
   end
 
   def rearrange_old(path)
