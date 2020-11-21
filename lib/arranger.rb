@@ -13,6 +13,8 @@ class Arranger
     @pattern_2 = /^(?<lib>ENA|NS|MS)_(?<id>[^_]+)_ruler\.tiff?$/
     @pattern_3 = /^(?<lib>ENA|NS|MS)_(?<id>[^_]+)_0*(?<leaf>\d+)\.tiff?$/
     @pattern_4 = /^(?<lib>ENA|NS|MS)_(?<series>[^_]+)_(?<id>[^_]+)_0*(?<leaf>\d+)_[rv]\.tiff?$/
+    @pattern_5 = /^(?<lib>ENA|NS|MS)_(?<series>[^_]+)_(?<id>[^_]+)_ruler\.tiff?$/
+    @pattern_6 = /^(?<lib>ENA|NS|MS)_(?<id>[^_]+)_(?<sub>[AB])_0*(?<leaf>\d+)\.tiff?$/
   end
 
   def files
@@ -29,6 +31,10 @@ class Arranger
       "#{$~[:lib]} #{$~[:id]}.#{$~[:leaf]}"
     when @pattern_4
       "#{$~[:lib]} #{$~[:series]} #{$~[:id]}.#{$~[:leaf]}"
+    when @pattern_5
+      ""
+    when @pattern_6
+      "#{$~[:lib]} #{$~[:id]}.#{$~[:sub]}.#{$~[:leaf]}"
     else
       raise "bad source path for shelf mark: #{path}"
     end
@@ -45,7 +51,10 @@ class Arranger
       Pathname(File.join(dest, $~[:lib], $~[:id], $~[:leaf].rjust(3, "0"), path.basename))
     when @pattern_4
       Pathname(File.join(dest, $~[:lib], $~[:series], $~[:id], $~[:leaf].rjust(3, "0"), path.basename))
-      
+    when @pattern_5
+      Pathname(File.join(dest, $~[:lib], $~[:series], $~[:id], path.basename))
+    when @pattern_6
+      Pathname(File.join(dest, $~[:lib], $~[:id], $~[:sub], path.basename))
     else
       raise "bad source path: #{path}"
     end

@@ -21,6 +21,30 @@ RSpec.describe Arranger do
     { src: "converted/ena_3235_to_ena_ns_28/ENA_NS_10_001_r.tiff",
      mark: "ENA NS 10.1",
      target: "geniza/ENA/NS/10/001/ENA_NS_10_001_r.tiff"
+    },
+    { src: "converted/ena_3235_to_ena_ns_28/ENA_NS_10_ruler.tiff",
+     mark: "",
+     target: "geniza/ENA/NS/10/ENA_NS_10_ruler.tiff"
+    },
+    { src: "converted/geniza2/Genizah-20070711/ENA_2947_00001.tiff",
+     mark: "ENA 2947.1",
+     target: "geniza/ENA/2947/001/ENA_2947_00001.tiff"
+    },
+    { src: "converted/geniza2/Genizah-20070711/MS_10808_00001.tiff",
+     mark: "MS 10808.1",
+     target: "geniza/MS/10808/001/MS_10808_00001.tiff"
+    },
+    { src: "converted/geniza2/Lib-Geniza1/ena_148_to_2708_medium_part_1_of_4/ENA_2644b_001_r.tiff",
+     mark: "ENA 2644b.1",
+     target: "geniza/ENA/2644b/001/ENA_2644b_001_r.tiff"
+    },
+    { src: "converted/geniza2/Lib-Geniza1/ena_3602_tons_14-and-ena_592_to_ns_73_small_2/Small_list_2/ENA_3503_A_001.tiff",
+     mark: "ENA 3503.A.1",
+     target: "geniza/ENA/3503/A/ENA_3503_A_001.tiff"
+    },
+    { src: "/mnt/diglibdata/pudl/gniza_working/converted/geniza2/Genizah-20070711/ENA_2947_00001.tiff",
+     mark: "ENA 2947.1",
+     target: "geniza/ENA/2947/001/ENA_2947_00001.tiff"
     }
     ] }
 
