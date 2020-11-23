@@ -45,6 +45,10 @@ RSpec.describe Arranger do
     { src: "/mnt/diglibdata/pudl/gniza_working/converted/geniza2/Genizah-20070711/ENA_2947_00001.tiff",
      mark: "ENA 2947.1",
      target: "geniza/ENA/2947/001/ENA_2947_00001.tiff"
+    },
+    { src: "converted/geniza2/Lib-Geniza1/ena_3602_tons_14-and-ena_592_to_ns_73_small_2/Small_list_2/ENA_3503_A_ruler.tiff",
+     mark: "",
+     target: "geniza/ENA/3503/A/ENA_3503_A_ruler.tiff"
     }
     ] }
 
@@ -63,5 +67,7 @@ RSpec.describe Arranger do
       end
     end
   end
+
+
 end
   
