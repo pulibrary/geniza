@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 require "pathname"
+require "csv"
 require "pry"
 
 class Arranger
@@ -38,7 +39,6 @@ class Arranger
              ->(m) { "" },
              ->(m) { File.join(m[:lib], m[:id], m[:sub]) })
   end
-
 
   def add_rule(pattern, shelfmark_action, pathname_action)
     shelfmark_kb[pattern] = shelfmark_action
@@ -88,5 +88,14 @@ class Arranger
       FileUtils.mkdir_p target.dirname
       path.rename(target)
     end
+  end
+
+  def to_csv(file)
+    csv = CSV.new(file, headers: ['local_identifier', 'path'], write_headers: true)
+    src.glob("**/*.tif*").each do |path|
+      src = path.basename.sub_ext(".tif")
+      csv << [shelfmark(src), target_path(src)]
+    end
+    csv
   end
 end

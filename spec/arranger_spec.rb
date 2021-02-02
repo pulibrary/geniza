@@ -3,6 +3,7 @@
 require 'spec_helper'
 require 'arranger'
 require 'pathname'
+require 'csv'
 
 RSpec.describe Arranger do
   let(:arranger) { described_class.new(src: 'foo', dest: 'geniza') }
