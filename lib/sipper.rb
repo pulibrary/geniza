@@ -80,3 +80,44 @@ class Sipper
     csv
   end
 end
+
+class NehSipper < Sipper
+  def initialize(src:)
+    @src = Pathname(src)
+    @shelfmark_kb = {}
+    @pathname_kb = {}
+    add_rule(/^MS_L_273_(?<leaf>\d+)_[rv]\.tif$/,
+             ->(m) { "MS L 273.#{m[:leaf].gsub(/^0*/,'')}" },
+             ->(m) { File.join('MS', 'L', '273', m[:leaf].rjust(3, "0")) })
+
+    add_rule(/^(?<lib>MS)_(?<id>[^_]+)_(?<leaf>\d+)[Ci]+_[rv]\.tif$/,
+             ->(m) { "#{m[:lib]} #{m[:id]} wrapper" },
+             ->(m) { File.join( m[:lib], m[:id], 'wrapper') })
+
+
+    add_rule(/^(?<lib>MS)_(?<id>[^_]+)_(?<leaf>\d+)_[rv]\.tif$/,
+             ->(m) { "#{m[:lib]} #{m[:id]}.#{m[:leaf].gsub(/^0*/,'')}" },
+             ->(m) { File.join( m[:lib], m[:id], m[:leaf].rjust(3, "0")) })
+
+    add_rule(/^ENA_NS_85_vol_3_part_2_(?<leaf>\d+)_[rv]\.tif$/,
+             ->(m) { "ENA NS 85.#{m[:leaf].gsub(/^0*/,'')}" },
+             ->(m) { File.join('ENA', 'NS', '85', m[:leaf].rjust(3, "0")) })
+
+    add_rule(/^ENA_NS_85_vol_3_part_2_(?<leaf>\d+)\.(?<sub>\d+)_[rv]\.tif$/,
+             ->(m) { "ENA NS 85.#{m[:leaf].gsub(/^0*/,'')}.#{m[:sub]}" },
+             ->(m) { File.join('ENA', 'NS', '85', m[:leaf].rjust(3, "0"), m[:sub] ) })
+
+    add_rule(/^(?<lib>ENA|NS|MS)_(?<series>[^_]+)_(?<id>[^_]+)(_vol_\d)?_(?<leaf>\d+)_[rv]\.tif$/,
+             ->(m) { "#{m[:lib]} #{m[:series]} #{m[:id]}.#{m[:leaf].gsub(/^0*/,'')}" },
+             ->(m) { File.join( m[:lib], m[:series], m[:id], m[:leaf].rjust(3, "0")) })
+
+    add_rule(/^(?<lib>ENA|NS|MS)_(?<series>[^_]+)_(?<id>[^_]+)(_vol_\d)?_(?<leaf>[^.]+)\.(?<sub>\d+)_[rv]\.tif$/,
+             ->(m) { "#{m[:lib]} #{m[:series]} #{m[:id]}.#{m[:leaf].gsub(/^0*/,'')}.#{m[:sub]}" },
+             ->(m) { File.join( m[:lib], m[:series], m[:id], m[:leaf].rjust(3, "0"), m[:sub] ) })
+
+    add_rule(/^(?<lib>ENA|NS|MS)_(?<series>[^_]+)_(?<id>[^_]+)(_vol_\d)?_(?<leaf>[^.]+)\.(?<sub1>\d+)\.(?<sub2>\d+)_[rv]\.tif$/,
+             ->(m) { "#{m[:lib]} #{m[:series]} #{m[:id]}.#{m[:leaf].gsub(/^0*/,'')}.#{m[:sub1]}.#{m[:sub2]}" },
+             ->(m) { File.join( m[:lib], m[:series], m[:id], m[:leaf].rjust(3, "0"), m[:sub1], m[:sub2] ) })
+  end
+
+end

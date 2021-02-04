@@ -26,7 +26,13 @@ RSpec.describe NehArranger do
         target: 'geniza/MS/1512/wrapper/MS_1512_000C_r.tif'},
       { src: 'geniza/MS_L_273_0001_r.tif',
         mark: 'MS L 273.1',
-        target: 'geniza/MS/L/273/0001/MS_L_273_0001_r.tif'}
+        target: 'geniza/MS/L/273/0001/MS_L_273_0001_r.tif'},
+      { src: 'geniza/MS_1512_000C_r.tif',
+        mark: 'MS 1512 wrapper',
+        target: 'geniza/MS/1512/wrapper/MS_1512_000C_r.tif'},
+      { src: 'geniza/MS_1512_000ii_r.tif',
+        mark: 'MS 1512 wrapper',
+        target: 'geniza/MS/1512/wrapper/MS_1512_000ii_r.tif'},
     ]
   end
 

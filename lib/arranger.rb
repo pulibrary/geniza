@@ -108,14 +108,14 @@ class NehArranger < Arranger
              ->(m) { "MS L 273.#{m[:leaf].gsub(/^0*/,'')}" },
              ->(m) { File.join('MS', 'L', '273', m[:leaf].rjust(3, "0")) })
 
-    add_rule(/^(?<lib>MS)_(?<id>[^_]+)_(?<leaf>\d+)[Ci]_[rv]\.tif$/,
+    add_rule(/^(?<lib>MS)_(?<id>[^_]+)_(?<leaf>\d+)[Ci]+_[rv]\.tif$/,
              ->(m) { "#{m[:lib]} #{m[:id]} wrapper" },
              ->(m) { File.join( m[:lib], m[:id], 'wrapper') })
 
 
     add_rule(/^(?<lib>MS)_(?<id>[^_]+)_(?<leaf>\d+)_[rv]\.tif$/,
-             ->(m) { "#{m[:lib]} #{m[:series]} #{m[:id]}.#{m[:leaf].gsub(/^0*/,'')}" },
-             ->(m) { File.join( m[:lib], m[:series], m[:id], m[:leaf].rjust(3, "0")) })
+             ->(m) { "#{m[:lib]} #{m[:id]}.#{m[:leaf].gsub(/^0*/,'')}" },
+             ->(m) { File.join( m[:lib], m[:id], m[:leaf].rjust(3, "0")) })
 
     add_rule(/^ENA_NS_85_vol_3_part_2_(?<leaf>\d+)_[rv]\.tif$/,
              ->(m) { "ENA NS 85.#{m[:leaf].gsub(/^0*/,'')}" },
