@@ -2,7 +2,7 @@
 
 # frozen_string_literal: true
 require "pathname"
-require "../lib/arranger"
+require_relative "../lib/arranger"
 
 abort "usage: rearrange_files src dest" if ARGV.count != 2
 
@@ -14,3 +14,5 @@ raise "source path not valid" unless src.directory?
 raise "destination path not valid" unless dest.directory?
 
 puts "src=|#{src.to_s}|; dest=|#{dest.to_s}|"
+arranger = NehArranger.new src: src, dest:dest
+arranger.rearrange!

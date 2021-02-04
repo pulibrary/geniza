@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 require "pathname"
 require "csv"
-require "pry"
+#require "pry"
 
 class Arranger
     attr_accessor :src, :dest, :base, :shelfmark_kb, :pathname_kb
@@ -71,21 +71,18 @@ class Arranger
   end
 
   def rearrange
-    src.glob("**/*.tif*").collect do |path|
-      target = target_path(path.basename.sub_ext(".tif"))
-       raise "Bad source path #{path}" if target.empty?
-       raise "target already exists #{path}" if target.exist?
-       { old: path, new: target_path(target) }
+    src.glob("**/*.tif*").each do |path|
+      original = Pathname(path)
+      target = target_path(original)
+      puts "#{original.to_s} ====> #{target.to_s}"
     end
   end
 
   def rearrange!
     src.glob("**/*.tif*").each do |path|
-      target = target_path(path.basename.sub_ext(".tif"))
-       raise "Bad source path #{path}" if target.empty?
-       raise "target already exists #{path}" if target.exist?
-       puts target.to_s
-      FileUtils.mkdir_p target.dirname
+      original = Pathname(path)
+      target = target_path(path)
+      target.dirname.mkpath
       path.rename(target)
     end
   end
@@ -128,13 +125,17 @@ class NehArranger < Arranger
              ->(m) { "ENA NS 85.#{m[:leaf].gsub(/^0*/,'')}.#{m[:sub]}" },
              ->(m) { File.join('ENA', 'NS', '85', m[:leaf].rjust(3, "0"), m[:sub] ) })
 
-    add_rule(/^(?<lib>ENA|NS|MS)_(?<series>[^_]+)_(?<id>[^_]+)_vol_\d_(?<leaf>\d+)_[rv]\.tif$/,
+    add_rule(/^(?<lib>ENA|NS|MS)_(?<series>[^_]+)_(?<id>[^_]+)(_vol_\d)?_(?<leaf>\d+)_[rv]\.tif$/,
              ->(m) { "#{m[:lib]} #{m[:series]} #{m[:id]}.#{m[:leaf].gsub(/^0*/,'')}" },
              ->(m) { File.join( m[:lib], m[:series], m[:id], m[:leaf].rjust(3, "0")) })
 
-    add_rule(/^(?<lib>ENA|NS|MS)_(?<series>[^_]+)_(?<id>[^_]+)_vol_\d_(?<leaf>[^.]+)\.(?<sub>\d+)_[rv]\.tif$/,
+    add_rule(/^(?<lib>ENA|NS|MS)_(?<series>[^_]+)_(?<id>[^_]+)(_vol_\d)?_(?<leaf>[^.]+)\.(?<sub>\d+)_[rv]\.tif$/,
              ->(m) { "#{m[:lib]} #{m[:series]} #{m[:id]}.#{m[:leaf].gsub(/^0*/,'')}.#{m[:sub]}" },
              ->(m) { File.join( m[:lib], m[:series], m[:id], m[:leaf].rjust(3, "0"), m[:sub] ) })
+
+    add_rule(/^(?<lib>ENA|NS|MS)_(?<series>[^_]+)_(?<id>[^_]+)(_vol_\d)?_(?<leaf>[^.]+)\.(?<sub1>\d+)\.(?<sub2>\d+)_[rv]\.tif$/,
+             ->(m) { "#{m[:lib]} #{m[:series]} #{m[:id]}.#{m[:leaf].gsub(/^0*/,'')}.#{m[:sub1]}.#{m[:sub2]}" },
+             ->(m) { File.join( m[:lib], m[:series], m[:id], m[:leaf].rjust(3, "0"), m[:sub1], m[:sub2] ) })
 
   end
 end

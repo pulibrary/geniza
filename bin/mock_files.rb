@@ -4,7 +4,7 @@ require "pathname"
 #file = "/Users/cwulfman/repos/github/pulibrary/g_arrange/arranged.lis"
 #file = "/tmp/neh_geniza.lis"
 file = "geniza_neh.lis"
-base = Pathname("/tmp/NEH_Genizah")
+base = Pathname("/tmp")
 
 File.foreach(file) do |line|
   path = base + Pathname(line.rstrip())
