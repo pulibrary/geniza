@@ -1,0 +1,25 @@
+* Ingesting Genizah images
+These are utilities for rearranging Cairo Genizah fragment image
+files, recto and verso, into directories named by shelfmark, and then
+compiling a csv file (a SIP) to use in ingesting them into Figgy.
+
+Here is the process.
+
+** Rearrange the image files
+   Begin by creating a set of mock image files to play around with.
+   =mock_files.rb= is a simple script; edit the /file/ and /base/
+   variables to suit.
+
+   Now, subclass the Arranger class for your data set of images.  Create
+   pattern-matching rules for your image-file names.
+
+   Test with the Arranger.rearrange method; when everything looks
+   right, run Arranger.rearrange! on the actual files on the Isilon
+   (you should probably make a backup of the image files first).
+
+** Generate a SIP
+   Subclass the Sipper class and, again, crreate matching rules to
+   match your data.  Run Sipper.to_csv() to generate a csv.
+
+** Perform ingest
+   Use a rake task (not sure which) to ingest from the CSV.

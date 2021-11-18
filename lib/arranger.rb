@@ -139,3 +139,82 @@ class NehArranger < Arranger
 
   end
 end
+
+class McgrawArranger < Arranger
+  def initialize(src:, dest:)
+    @src = Pathname(src)
+    @dest = Pathname(dest)
+    @shelfmark_kb = {}
+    @pathname_kb = {}
+
+    # ENA_1056_001_r.jp2
+    add_rule(/^ENA_(?<id>[^_]+)_(?<leaf>[^_]+)_[rv]\.jp2$/,
+             ->(m) { "ENA #{m[:id]}.#{m[:leaf].gsub(/^0*/,'')}" },
+             ->(m) { File.join( "ENA", m[:id], m[:leaf].rjust(3, "0")) })
+
+    # ENA_1822A_001_r.jp2
+    # ENA_1822A_001_r.jp2
+    # ENA_1822A_083a_r.jp2
+    # ENA_2084_001V_r.jp2
+    # ENA_2556_002a_r.jp2
+    # ENA_2644b_10_r.jp2
+    # ENA_2727_011cde_r.jp2
+    # ENA_2727_015ab_r.jp2
+    # ruler.jp2
+    # ENA_2890_010.1_r.jp2
+
+    # ENA_4096_e1_r.jp2
+    # ENA_4096e1_r.jp2
+
+    # ENA_4101_043.jp2
+    # ENA_4101_044.jp2
+
+    # ENA_NS_10_15_r.jp2
+
+    # ENA_NS_13_001-2.jp2
+    # ENA_NS_13_001_r.jp2
+    # ENA_NS_13_001_v.jp2
+
+    # ENA_NS_29__7_r.jp2
+
+    # ENA_NS_77_375v.jp2
+
+    # ENA_NS_I_001_r.jp2
+
+    # ENA_NS_I_089c_v.jp2
+
+    # KE_001_r.jp2
+
+    # Krengel_001a_r.jp2
+    # Krengel_010_r.jp2
+
+    # MS_10160_001_r.jp2
+    # MS_10674__fol__5_r.jp2
+    # MS_10809_r.jp2
+    # MS_4607_071a_r.jp2
+
+    # MS_4607a_rule.jp2
+    # MS_4607_rule.jp2
+
+    # MS_8229_001.jp2
+
+    # MS_L143_001_r.jp2
+    # MS_L515_055a_r.jp2
+
+    # MS_L516_000A.jp2
+    # MS_L516_000.jp2
+
+    # MS_L590_Vol_1_001_r.jp2
+
+    # MS_L590_Vol_3_037.jp2
+    # MS_L590_Vol__3__fol__14_r.jp2
+    # MS_L594__fol__38a_r.jp2
+
+    # MS_L596_027_r-1.jp2
+    # MS_L596_027_r.jp2
+
+    # MS_L597__fol__13_r.jp2
+
+    # MS_R1449_001_r.jp2
+  end
+end
