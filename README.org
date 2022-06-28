@@ -23,3 +23,11 @@ Here is the process.
 
 ** Perform ingest
    Use a rake task (not sure which) to ingest from the CSV.
+
+** Consolidate into multi-volume works
+   This should probably been done prior to ingest.
+
+   - First, generate a list of all the resources in the mcgraw collection.
+   - group them by shelf mark
+   - create a hash with shelf marks as keys and ordered arrays of
+     local_id,id pairs as values
