@@ -31,7 +31,7 @@ args = parser.parse_args()
 root_dir = args.Path
 
 if not os.path.isdir(root_dir):
-    print(f"{root_dir} is not a directory")
+    print("root_dir is not a directory")
     sys.exit()
 
 

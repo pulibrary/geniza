@@ -4,7 +4,8 @@ require "pathname"
 #file = "/Users/cwulfman/repos/github/pulibrary/g_arrange/arranged.lis"
 #file = "/tmp/neh_geniza.lis"
 #file = "geniza_neh.lis"
-file = "geniza_mcgraw.lis"
+#file = "geniza_mcgraw.lis"
+file = "/Users/cwulfman/Desktop/bound_ms.lis"
 base = Pathname("/tmp/add_to_figgy")
 
 File.foreach(file) do |line|
